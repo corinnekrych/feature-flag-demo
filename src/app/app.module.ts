@@ -12,7 +12,7 @@ import {HttpModule} from '@angular/http';
 import {AUTH_API_URL, AuthenticationService, REALM} from 'ngx-login-client';
 import {Broadcaster} from 'ngx-base';
 import {SSO_API_URL} from 'ngx-login-client/src/app/shared/sso-api';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,8 @@ import {SSO_API_URL} from 'ngx-login-client/src/app/shared/sso-api';
   imports: [
     BrowserModule,
     HttpModule,
+    ModalModule.forRoot(),
+    // FeatureFooterModule,
     FeatureFlagModule
   ],
   providers: [
