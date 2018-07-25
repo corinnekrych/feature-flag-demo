@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Feature, FeatureFlagConfig, FeatureTogglesService} from 'ngx-feature-flag';
-import 'rxjs/add/operator/map';
-
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +11,7 @@ export class AppComponent implements OnInit {
   isEnabled = false;
   show = true;
   featureConfig: FeatureFlagConfig;
-  constructor(private featureService: FeatureTogglesService) {}
+  constructor(private featureService: FeatureTogglesService, private router: Router) {}
 
   ngOnInit() {
     this.featureConfig = {
