@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {
@@ -8,11 +8,23 @@ import {
   FeatureFlagModule,
   FeatureTogglesService
 } from 'ngx-feature-flag';
-import {HttpModule} from '@angular/http';
-import {AUTH_API_URL, AuthenticationService, REALM} from 'ngx-login-client';
-import {Broadcaster} from 'ngx-base';
-import {SSO_API_URL} from 'ngx-login-client/src/app/shared/sso-api';
+import {AUTH_API_URL, AuthenticationService, REALM, UserService} from 'ngx-login-client-fork';
+import {Broadcaster, Logger} from 'ngx-base';
+import {SSO_API_URL} from 'ngx-login-client-fork/src/app/shared/sso-api';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {HttpModule} from '@angular/http';
+import {Router, RouterModule, Routes} from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'ff',
+    loadChildren: './feature-flag/toggles.module#TogglesModule',
+    data: {
+      title: 'Feature Flag'
+    }
+  }
+  ];
+
 
 @NgModule({
   declarations: [
@@ -20,10 +32,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HttpModule,
     ModalModule.forRoot(),
     // FeatureFooterModule,
-    FeatureFlagModule
+    FeatureFlagModule,
+    RouterModule.forRoot(routes, { enableTracing: true })
   ],
   providers: [
     {provide: AUTH_API_URL, useValue: 'https://auth.prod-preview.openshift.io/api/'},
@@ -32,6 +46,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     {provide: FABRIC8_FEATURE_TOGGLES_API_URL, useValue: 'https://api.prod-preview.openshift.io/api/'},
     Broadcaster,
     AuthenticationService,
+    UserService,
+    Logger,
     FeatureTogglesService
   ],
   bootstrap: [AppComponent]
